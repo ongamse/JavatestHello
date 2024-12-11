@@ -1,7 +1,7 @@
 ---
 # This workflow integrates ShiftLeft NG SAST with GitHub
 # Visit https://docs.shiftleft.io for help
-name: QwietPoC
+name: QwietPoCwBuild
 
 on:
   pull_request:
@@ -24,7 +24,7 @@ jobs:
         curl https://cdn.shiftleft.io/download/sl >/usr/local/bin/sl && chmod a+rx /usr/local/bin/sl
     - name: NextGen Static Analysis
       run: |
-        $GITHUB_WORKSPACE\sl analyze --strict --wait --verbose --app JavaTestGHwMvnBuild
+        $GITHUB_WORKSPACE/sl analyze --strict --wait --verbose --app JavaTestGHwMvnBuild
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
         SHIFTLEFT_API_HOST: www.shiftleft.io
