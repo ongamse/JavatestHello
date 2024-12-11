@@ -1,4 +1,3 @@
-
 ---
 # This workflow integrates ShiftLeft NG SAST with GitHub
 # Visit https://docs.shiftleft.io for help
@@ -21,12 +20,13 @@ jobs:
     #- name: Package with maven
     #  run: mvn clean package
     - name: Download ShiftLeft CLI
+      shell: pwsh
       run: |
-        Invoke-WebRequest -Uri 'https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip' -OutFile ${GITHUB_WORKSPACE}\sl.zip
-          Expand-Archive -Path ${GITHUB_WORKSPACE}\sl.zip -DestinationPath ${GITHUB_WORKSPACE}\
+        Invoke-WebRequest -Uri 'https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip' -OutFile "$env:GITHUB_WORKSPACE\sl.zip"
+        Expand-Archive -Path "$env:GITHUB_WORKSPACE\sl.zip" -DestinationPath "$env:GITHUB_WORKSPACE\"
     - name: NextGen Static Analysis
       shell: pwsh
-      run: ${GITHUB_WORKSPACE}sl.exe analyze --strict --wait --verbose --app JavaTestGH
+      run: '$env:GITHUB_WORKSPACE\sl.exe analyze --strict --wait --verbose --app JavaTestGH'
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
         SHIFTLEFT_API_HOST: www.shiftleft.io
