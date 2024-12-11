@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 jobs:
   NextGen-Static-Analysis:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
     # We are building this application with Java 11
@@ -22,9 +22,10 @@ jobs:
     #  run: mvn clean package
     - name: Download ShiftLeft CLI
       run: |
-        curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
+        Invoke-WebRequest -Uri 'https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip' -OutFile ${GITHUB_WORKSPACE}\sl.zip
+          Expand-Archive -Path ${GITHUB_WORKSPACE}\sl.zip -DestinationPath ${GITHUB_WORKSPACE}\
     - name: NextGen Static Analysis
-      run: ${GITHUB_WORKSPACE}/sl analyze --strict --wait --verbose --app JavaTestGH
+      run: ${GITHUB_WORKSPACE}/sl.exe analyze --strict --wait --verbose --app JavaTestGH
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
         SHIFTLEFT_API_HOST: www.shiftleft.io
