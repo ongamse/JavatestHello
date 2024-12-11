@@ -25,6 +25,7 @@ jobs:
         Invoke-WebRequest -Uri 'https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip' -OutFile ${GITHUB_WORKSPACE}\sl.zip
           Expand-Archive -Path ${GITHUB_WORKSPACE}\sl.zip -DestinationPath ${GITHUB_WORKSPACE}\
     - name: NextGen Static Analysis
+      shell: pwsh
       run: ${GITHUB_WORKSPACE}\sl.exe analyze --strict --wait --verbose --app JavaTestGH
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
